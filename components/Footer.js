@@ -22,7 +22,7 @@ const Footer = ({showCart,handleCart}) => {
                     <p className="email TXT-footer" onClick={handleCopy}>contact@malikkajiji.online</p>
                     <p className='copy TXT-normal'> copy </p>
                     <p className="TXT-footer">for more details about me you can visit </p>
-                    <a href="https://malikkajiji.online" target='_blank'><button className="TXT-footer">my portifolio</button></a>
+                    <a href="https://malikkajiji.online" target='_blank' rel="noopener noreferrer"><button className="TXT-footer">my portifolio</button></a>
                 </article>
             </div>
             <Cart showCart={showCart} handleCart={handleCart}/>

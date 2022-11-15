@@ -29,7 +29,7 @@ const Aboutus = () => {
                         <p className={style.text+' TXT-normal'}>the point of this project is to show my skills as a 
                             frontend developer so if you are interested you can visit  
                         </p>
-                        <a href="https://malikkajiji.online" target='_blank'><button className={style.Btn+' TXT-normal'}>My Portifolio</button></a>
+                        <a href="https://malikkajiji.online" target='_blank' rel="noopener noreferrer"><button className={style.Btn+' TXT-normal'}>My Portifolio</button></a>
                         <p className={style.text+' TXT-normal'}>
                             or contact me at<span> contact@malikkajiji.online</span>
                         </p>
