@@ -2,6 +2,14 @@ import React from "react";
 import Cart from "./Cart";
 
 const Footer = ({showCart,handleCart}) => {
+    function handleCopy(){
+        const copyMsg = document.querySelector('.copy');
+        navigator.clipboard.writeText("contact@malikkajiji.online");
+        copyMsg.innerHTML = "copied";
+        setTimeout(() => {
+            copyMsg.innerHTML = "copy";
+        }, 3000);
+    }
     return ( 
         <footer>
             <div className="container">
@@ -11,7 +19,8 @@ const Footer = ({showCart,handleCart}) => {
                     <p className="TXT-footer">developed & designed by malik kajiji </p>
                 </article>
                 <article>
-                    <p className="TXT-footer">contact@malikkajiji.online</p>
+                    <p className="email TXT-footer" onClick={handleCopy}>contact@malikkajiji.online</p>
+                    <p className='copy TXT-normal'> copy </p>
                     <p className="TXT-footer">for more details about me you can visit </p>
                     <a href="https://malikkajiji.online" target='_blank'><button className="TXT-footer">my portifolio</button></a>
                 </article>

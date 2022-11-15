@@ -17,8 +17,8 @@ const Success = () => {
         <section className={style.mainSection}>
             <div className={style.container+' container'}>
                 <article className={style.card}>
-                    <h1 className={style.mainHeading+' TXT-heading2'}>thank for your order!</h1>
-                    <p className={style.p+' TXT-normal'}>you can check your email to see payment information </p>
+                    <h1 className={style.mainHeading+' TXT-heading2'}>thanks for your order!</h1>
+                    <p className={style.p+' TXT-normal'}>you can check your email to see payment details </p>
                     <p className={style.icon}>{BsFillBagCheckFill()}</p>
                     <Link href='/'>
                         <button type='button' className={style.Btn+' BTN'}>go back to home page </button>

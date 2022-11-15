@@ -378,6 +378,29 @@ footer {
             p {
                 color: $white-color;
             }
+            .copy {
+                transition: 0.7s;
+                position: absolute;
+                color: $black-color;
+                clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 50% 75%, 25% 100%, 25% 75%, 0% 75%);
+                background-color: rgba($color: #ffffff, $alpha: 0.7);
+                display: flex;
+                justify-content: center;
+                opacity: 0;
+                text-transform: capitalize;
+                width: 100px;
+                height: 50px;
+                bottom: 160px;
+                right: 160px;
+            }
+            .email{
+                cursor: pointer;
+                &:hover {
+                    &+p{
+                        opacity: 1;
+                    }
+                }
+            }
             button {
                 width: 100%;
                 background-color: transparent;
@@ -405,6 +428,12 @@ footer {
             }
             & article:nth-child(2){
                 grid-column: 4/7;
+                .copy {
+                    width: 50px;
+                    height: 30px;
+                    bottom: 115px;
+                    right: 40px;
+                }
             }
         }
     }

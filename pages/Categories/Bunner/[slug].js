@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { client,urlFor } from  "../../../lib/client";
 import style from '../../../styles/pages/product.module.css';
-import {CartData} from "../../../context/CartContext"
+import {CartData} from "../../../context/CartContext";
+import { useRouter } from 'next/router';
 
 export const getServerSideProps = async ({params:{slug}})=>{
     const product = `*[_type == "bunner" && slug.current == '${slug}'][0]`;
@@ -20,6 +21,7 @@ const Product = ({productData}) => {
     const [useEffectRunner,setUseEffectRunner]=useState(0)
     const {account}=CartData()
     const [popUp,setPopUp]=useState()
+    const router = useRouter();
 
     // to check if the product already exists
     useEffect(()=>{
@@ -93,8 +95,8 @@ const Product = ({productData}) => {
                         remove
                     </button>
                     }
-                    <button className={style.Btn+' BTN'}>
-                        buy now
+                    <button onClick={router.back} className={style.Btn+' BTN'}>
+                        Go back
                     </button>
                 </article>
             </div>
