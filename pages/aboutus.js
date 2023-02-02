@@ -12,7 +12,7 @@ const Aboutus = () => {
                         <p className={style.text+' TXT-normal'}>this project is a demo project, that means: </p>
                         <ul className={style.list} role='list'>
                             <li className={style.text+' TXT-normal'}>you cannot buy anything</li>
-                            <li className={style.text+' TXT-normal'}>no data is saved about you its just in your browser local storage </li>
+                            <li className={style.text+' TXT-normal'}>you dont need to verify your email </li>
                         </ul>
                     </div>
                     <div className={style.secondText}>
@@ -22,6 +22,7 @@ const Aboutus = () => {
                             <li className={style.text+' TXT-normal'}>NextJs</li>
                             <li className={style.text+' TXT-normal'}>Sanity</li>
                             <li className={style.text+' TXT-normal'}>Stripe</li>
+                            <li className={style.text+' TXT-normal'}>firebase</li>
                             <li className={style.text+' TXT-normal'}>Figma</li>
                         </ul>
                     </div>

@@ -20,17 +20,19 @@
                 .password {
                     position: relative;
                     width: 60%;
-                    height: 70px;
                     background-color: transparent;
                     border: none;
                     outline: none;
-                    border-bottom: 4px solid $primary-color;
                     color: $primary-color;
                     font-weight: 400;
+                    border-bottom: 2px solid $primary-color;
                 }
                 .Btn {
                     width: 60%;
                 }
+            }
+            .or {
+                color: $txt-color2;
             }
             .text {
                 text-align: center;
@@ -68,8 +70,13 @@
             grid-column: 4/10;
             height: 700px;
             .form {
-                height: 550px;
+                height: 450px;
                 width: 90%;
+                .username,
+                .password {
+                    height: 70px;
+                    border-bottom: 4px solid $primary-color;
+                }
             }
             .text {
                 width: 60%;
@@ -84,7 +91,7 @@
             grid-column: 3/11;
             height: 700px;
             .form {
-                height: 550px;
+                height: 450px;
                 width: 90%;
             }
             .text {
@@ -100,7 +107,7 @@
             grid-column: 1/7;
             height: 450px;
             .form {
-                height: 350px;
+                height: 250px;
                 width: 90%;
             }
             .text {

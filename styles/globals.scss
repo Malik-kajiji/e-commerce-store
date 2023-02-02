@@ -93,12 +93,12 @@ a {
 // vars
 @import './colors';
 :root {
-    --heading-FS:80px;
-    --heading2-FS:48px;
-    --heading3-FS:26px;
-    --normal-FS:24px;
-    --footer-FS:20px;
-    --Btn-FS:28px;
+    --heading-FS:72px;
+    --heading2-FS:40px;
+    --heading3-FS:24px;
+    --normal-FS:22px;
+    --footer-FS:18px;
+    --Btn-FS:26px;
 
     --heading-FW:800;
     --heading2-FW:600;
@@ -109,8 +109,8 @@ a {
 }
 @media only screen and (max-width: 1120px) {
     :root {
-        --heading-FS:50px;
-        --heading2-FS:38px;
+        --heading-FS:48px;
+        --heading2-FS:36px;
         --heading3-FS:22px;
         --normal-FS:20px;
         --footer-FS:16px;

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { client,urlFor } from  "../../../lib/client";
 import style from '../../../styles/pages/product.module.css';
-import {CartData} from "../../../context/CartContext";
+import { AppData } from "../../../context/AppContext";
 import { useRouter } from 'next/router';
+import { doc,setDoc } from 'firebase/firestore';
+import { initFirebase } from "../../../lib/fireaseConfig";
 
 export const getServerSideProps = async ({params:{slug}})=>{
     const Category = slug.slice(0,slug.length-1)
@@ -17,67 +19,69 @@ export const getServerSideProps = async ({params:{slug}})=>{
 
 const Product = ({productData}) => {
     const {details,image,name,price,slug}=productData;
-    const products = CartData();
+    const { isLoggedIn , user, cartItems  } = AppData()
     const [itemExists,setitemExists]=useState(false);
-    const [useEffectRunner,setUseEffectRunner]=useState(0)
-    const {account}=CartData()
-    const [popUp,setPopUp]=useState()
+    const [popUp,setPopUp]=useState(null)
     const router = useRouter();
+    const { db } = initFirebase();
 
-    // console.log(router.back)
 
     // to check if the product already exists
     useEffect(()=>{
-        if(products.cartProducts.length){
-            const itemExistsSetter = products.cartProducts.filter(product=>product.slug.current === slug.current);
+            const itemExistsSetter = cartItems.filter(product=>product.slug.current === slug.current);
             if(itemExistsSetter.length === 1){
                 setitemExists(true)
             }else {
                 setitemExists(false)
             }
-        }
-    },[products.cartProducts.length])
+    },[cartItems.length])
 
 
 
     function handleAdd(){
-        if(account == ''){
-            setPopUp('you must log in first')
+        if(!isLoggedIn){
+            setPopUp('you must login first')
         }else {
-            setitemExists(prev=>!prev)
-            products.setCartProducts(prev =>{
-                if(!prev)prev=[]
-                const newProduct = {
-                    name,
-                    slug,
-                    image,
-                    details,
-                    qty:1,
-                    price,
-                    totalPrice:price
-                }
-                return [...prev,newProduct]
+            const itemsRef = doc(db,'cartitems', user.uid);
+            const newProduct = {
+                name,
+                slug,
+                image,
+                details,
+                qty:1,
+                price,
+                totalPrice:price
+            }
+            setDoc(itemsRef,{items:[...cartItems,newProduct]})
+            .then(()=>{
+                
             })
-            setUseEffectRunner(prev=>prev+1);
+            .catch((err)=>{
+                setPopUp(err.message)
+            })
         }
     }
 
 
     function handleDelete(){
-        setitemExists(prev=>!prev)
-        products.setCartProducts(prev =>{
-            return prev.filter(product => {
-                return product.slug.current !== slug.current;
-            })
+        const newProductsArray = cartItems.filter(product =>  product.slug.current !== slug.current);
+        const itemsRef = doc(db,'cartitems', user.uid);
+        setDoc(itemsRef,{items:newProductsArray})
+        .then(()=>{
+            
         })
-        setUseEffectRunner(prev=>prev+1);
+        .catch((err)=>{
+            setPopUp(err.message)
+        })
     }
 
     useEffect(()=>{
-            if(products.cartProducts && useEffectRunner!== 0){
-                localStorage.setItem('cartProducts',JSON.stringify(products.cartProducts))
-            }
-    },[useEffectRunner])
+        if(popUp){
+            setTimeout(() => {
+                setPopUp(null)
+            }, 3000);
+        }
+    },[popUp])
 
     return ( 
         <section className={style.mainSection}>

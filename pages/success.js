@@ -1,17 +1,27 @@
 import React,{useEffect} from 'react';
-import { CartData } from '../context/CartContext';
 import style from '../styles/pages/success.module.css';
 import Link from 'next/link';
-import {BsFillBagCheckFill} from 'react-icons/bs'
+import {BsFillBagCheckFill} from 'react-icons/bs';
+import { doc,setDoc } from 'firebase/firestore';
+import { initFirebase } from '../lib/fireaseConfig';
+import { AppData } from '../context/AppContext';
 
 const Success = () => {
-
-    const {setCartProducts} = CartData();
+    const { db } = initFirebase();
+    const { user } = AppData();
 
     useEffect(()=>{
-        setCartProducts(new Array());
-        localStorage.setItem('cartProducts',null)
-    },[])
+        if(user){
+            const itemsRef = doc(db,'cartitems', user.uid);
+            setDoc(itemsRef,{items:[]})
+            .then(()=>{
+    
+            })
+            .catch((err)=>{
+    
+            })
+        }
+    },[user])
 
     return (
         <section className={style.mainSection}>

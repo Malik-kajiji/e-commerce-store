@@ -1,62 +1,56 @@
-import React, { useEffect,useState } from "react";
-import {CartData} from "../context/CartContext"
+import React  from "react";
 import { urlFor } from "../lib/client";
 import getStripe from "../lib/stripe";
+import { initFirebase } from "../lib/fireaseConfig";
+import { doc,setDoc } from 'firebase/firestore';
+import { AppData } from "../context/AppContext";
 
 const Cart = ({showCart,handleCart}) => {
-    const {cartProducts,setCartProducts} = CartData();
-
-    const [useEffectRunner,setUseEffectRunner]=useState(0);
-
-    const handleCheckout = async ()=>{
-
-        const stripe = await getStripe();
-
-        const res = await fetch('/api/stripe',{
-            method:'POST',
-            headers: {
-                'Content-type':'apalication/json',
-            },
-            body:JSON.stringify(cartProducts)
-        })
-
-        if(res.statusCode == 500)return;
-
-        const data = await res.json()
-
-        stripe.redirectToCheckout({sessionId: data.id});
-
-    }
+    const { db } = initFirebase()
+    const { cartItems ,user  } = AppData();
 
     const TotalItems = ()=>{
         const Total = 0;
-        cartProducts.forEach((product)=>Total+=product.qty)
+        cartItems.forEach((product)=>Total+=product.qty)
         return Total;
     }
+
     const TotalPrice = ()=>{
         const Total = 0;
-        cartProducts.forEach((product)=>Total+=product.totalPrice)
+        cartItems.forEach((product)=>Total+=product.totalPrice)
         return Math.ceil(Total);
     }
+
     function clearCart(){
-        setCartProducts([])
-        setUseEffectRunner(prev=>prev+1)
+        const itemsRef = doc(db,'cartitems', user.uid);
+        setDoc(itemsRef,{items:[]})
+        .then(()=>{
+        })
+        .catch((err)=>{
+        })
     }
+
     function handleInc(e){
         const slug = e.target.name;
-        setCartProducts(prev=>prev.map((product)=>{
+        const newItems = cartItems.map((product)=>{
             if(product.slug.current !== slug)return product;
             return {
                 ...product,
                 qty:product.qty+1,
                 totalPrice:product.totalPrice+product.price
             }
-        }))
-        setUseEffectRunner(prev=>prev+1)
+        })
+        const itemsRef = doc(db,'cartitems', user.uid);
+        setDoc(itemsRef,{items:newItems})
+        .then(()=>{
+        })
+        .catch((err)=>{
+        })
     }
+
     function handleDec(e){
         const slug = e.target.name;
-        setCartProducts(prev=>prev.map((product)=>{
+        const newItems = cartItems.map((product)=>{
             if(product.slug.current !== slug)return product;
             if(product.qty == 1)return product;
             return {
@@ -64,21 +58,40 @@ const Cart = ({showCart,handleCart}) => {
                 qty:product.qty-1,
                 totalPrice:product.totalPrice-product.price
             }
-        }))
-        setUseEffectRunner(prev=>prev+1)
+        })
+        const itemsRef = doc(db,'cartitems', user.uid);
+        setDoc(itemsRef,{items:newItems})
+        .then(()=>{
+        })
+        .catch((err)=>{
+        })
     }
+
     function handleRemove(e){
         const slug = e.target.name;
-        setCartProducts(prev=>prev.filter((product)=>{
-            return product.slug.current !== slug
-        }))
-        setUseEffectRunner(prev=>prev+1)
+        const newItems = cartItems.filter((product)=> product.slug.current !== slug)
+
+        const itemsRef = doc(db,'cartitems', user.uid);
+        setDoc(itemsRef,{items:newItems})
+        .then(()=>{
+        })
+        .catch((err)=>{
+        })
     }
-    useEffect(()=>{
-        if(useEffectRunner!== 0){
-            localStorage.setItem('cartProducts',JSON.stringify(cartProducts))
-        }
-    },[cartProducts])
+
+    const handleCheckout = async ()=>{
+        const stripe = await getStripe();
+        const res = await fetch('/api/stripe',{
+            method:'POST',
+            headers: {
+                'Content-type':'apalication/json',
+            },
+            body:JSON.stringify(cartItems)
+        })
+        if(res.statusCode == 500)return;
+        const data = await res.json()
+        stripe.redirectToCheckout({sessionId: data.id});
+    }
     return ( 
         <>
             <div className={`overlay ${showCart?'show':''}`}></div>
@@ -91,7 +104,7 @@ const Cart = ({showCart,handleCart}) => {
                         </button>
                     </nav>
                     <article className="products container">
-                        {cartProducts.map((product)=>{
+                        {cartItems.map((product)=>{
                             const {details,image,name,price,qty,slug,totalPrice} = product;
                             return (
                                 <article className="product" key={slug.current}>
