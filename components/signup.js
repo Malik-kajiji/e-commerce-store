@@ -95,7 +95,7 @@ const Signup = ({setShowenPage}) => {
                         <span onClick={()=>setShowenPage('login')} className={style.signUp+' TXT-normal'}> login</span>
                     </p>
                 </article>
-                {massage.length !==0?<p className={style.popUp+' TXT-footer'}>{massage}dfgfdg</p>:<></>}
+                {massage.length !==0?<p className={style.popUp+' TXT-footer'}>{massage}</p>:<></>}
             </div>
         </section>
     );
